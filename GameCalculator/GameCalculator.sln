@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCalculator", "GameCalculator\GameCalculator.csproj", "{E97AD34D-F2F8-4C11-88DA-25077384159C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCalculatorLibrary", "GameCalculatorLibrary\GameCalculatorLibrary.csproj", "{322657FE-FC7A-4634-9DC6-970BCA33D4DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E97AD34D-F2F8-4C11-88DA-25077384159C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E97AD34D-F2F8-4C11-88DA-25077384159C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E97AD34D-F2F8-4C11-88DA-25077384159C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E97AD34D-F2F8-4C11-88DA-25077384159C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{322657FE-FC7A-4634-9DC6-970BCA33D4DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{322657FE-FC7A-4634-9DC6-970BCA33D4DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{322657FE-FC7A-4634-9DC6-970BCA33D4DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{322657FE-FC7A-4634-9DC6-970BCA33D4DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {55D398BE-2AE1-4166-AA9A-DBC0D5B293A9}
+	EndGlobalSection
+EndGlobal
