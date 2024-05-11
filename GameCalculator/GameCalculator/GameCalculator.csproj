@@ -4,6 +4,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>1a5badcd-554a-4eb6-b4a7-5698a049acca</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GameCalculatorLibrary\GameCalculatorLibrary.csproj" />
+  </ItemGroup>
 
 </Project>
