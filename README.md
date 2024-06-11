@@ -11,3 +11,11 @@ Currently, it will just be an energy regeneration calculator, however, as I cont
 Thanks!
 
 Jason
+
+# Developer Notes
+
+## Wireframe for the project, may change.
+
+![image](https://github.com/JasonTat/gacha-calculator/assets/112578835/f83931ca-85f1-47c4-91ef-9d3139855bec)
+
+
