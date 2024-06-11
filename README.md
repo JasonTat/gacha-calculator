@@ -1,4 +1,4 @@
-Hi! This is just a full stack personal project that I'm creating in ASP.NET Blazor + MS SQL Server. 
+Hi! This is a full stack personal project that I'm creating in ASP.NET Blazor + MS SQL Server. 
 
 Currently, the games I will be supporting are:
 - Honkai Star Rail
