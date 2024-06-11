@@ -5,6 +5,7 @@ Currently, the games I will be supporting are:
 - Genshin Impact
 - Arknights
 - Punishing Gray Raven
+- Wuthering Waves
 
 There could be more, but these are the ones that I am starting out with.
 Currently, it will just be an energy regeneration calculator, however, as I continue to work on the project, there may be more features. No promises though, as I use my own personal time to work on this.
