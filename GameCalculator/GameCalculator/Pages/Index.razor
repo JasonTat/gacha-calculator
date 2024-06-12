@@ -6,29 +6,74 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>yo</h1>
 
-@foreach(var game in gameList)
-{
-    <div>
+<div class="banner-name">
+    <h1>@currentGameName</h1>
+</div>
 
-        <h2>@game.GameName</h2>
-        <p>@game.MaximumEnergyCap</p>
-        <p>@game.MinutesPerEnergy</p>
-        <p>@game.ID</p>
-    </div>
-}
+<div>
+    <select class="select-game-list" @bind="currentGameId" @onclick="() => UpdateCurrentGame()">
+        <option selected value="0">Select a Game...</option>
+        @foreach (var game in gameList)
+        {
+            <option value="@game.ID">@game.GameName</option>
+        }
+    </select>
+</div>
 
 
+<label>Current Energy Amount</label>
+<input type="number" @bind="currentEnergyAmount"/>
+<button @onclick="() => CalculateTimeToReplenish(currentEnergyAmount)">Calculate</button>
+
+<div>
+    <p>@timeSpan.Hours hours and @timeSpan.Minutes minutes to full replenish.</p>
+    <p>@futureTime</p>
+</div>
 
 @code {
-    public List<Game> gameList = new List<Game>();
 
+    #region variables
+
+    //starting variables
+    public List<Game> gameList = new List<Game>();
+    public Game currentGame = new();        
+    public int currentGameId;
+    public string currentGameName = "Gacha Game Energy Calculator";
+
+    //user input variables
+    int currentEnergyAmount;
+
+    //output variable
+    int minutesToFullReplenish;
+    DateTime futureTime;
+    TimeSpan timeSpan;
+    #endregion
 
     protected override void OnInitialized()
     {
         gameList = _services.PopulateGameList();
     }
+
+    private Game UpdateCurrentGame()
+    {
+        return currentGame = _services.FetchGameFromId(currentGameId);
+    }
+
+    // private TimeSpan CalculateTimeToReplenish(int currentEnergyAmount)
+    // {
+    //     minutesToFullReplenish = _services.GameEnergyCalculator(currentEnergyAmount, currentGame);
+    //     return timeSpan = TimeSpan.FromMinutes(minutesToFullReplenish);
+    // }
+
+    private void CalculateTimeToReplenish(int currentEnergyAmount)
+    {
+        minutesToFullReplenish = _services.GameEnergyCalculator(currentEnergyAmount, currentGame);
+        timeSpan = TimeSpan.FromMinutes(minutesToFullReplenish);
+        futureTime = DateTime.Now.Add(timeSpan);
+    }
+
+
 
 
 
