@@ -22,35 +22,50 @@ void Main()
 	//max 240	
 	
 	//fetch game with id 
-	int gameId = 2;
-	int currentResinAmount = 0;
-	int replenishTime;
-	Game game = null;
-		
-		
-	game = FetchGameFromId(gameId);
-	//game.Dump();
+	
+	try{	
+		int gameId = 2;
+		int currentResinAmount = 2220;
+		int replenishTime;
+		Game game = null;		
+			
+		game = FetchGameFromId(gameId);
+		replenishTime = GameEnergyCalculator(currentResinAmount, game);
 
-	replenishTime = GameEnergyCalculator(currentResinAmount, game);
+		replenishTime.Dump();
+	}
+	catch(Exception ex){
+		GetInnerException(ex).Message.Dump();
+	}
+	
+	
 
-	replenishTime.Dump();
 	
 }
 
 // You can define other methods, fields, classes and namespaces here
 
 public int GameEnergyCalculator(int currentAmount, Game game) {	
-	//declare totalTime to replenish resin in minutes
-	int totalTimeToReplenish;
-	
-	//figure out how much resin is missing
-	int difference = (int)game.MaximumEnergyCap - currentAmount;
-	
-	//now that we have the difference, we figure out how long it will take to get that amount.
-	totalTimeToReplenish = difference * (int)game.MinutesPerEnergy;	
 
-	return totalTimeToReplenish;
+	if(currentAmount > game.MaximumEnergyCap){
+		throw new ArgumentException($"Your current amount, {currentAmount}, is greater than the maximum cap ({game.MaximumEnergyCap}) of {game.GameName}");
+	}
+	else {
+			//declare totalTime to replenish resin in minutes
+		int totalTimeToReplenish;
+		
+		//figure out how much resin is missing
+		int difference = (int)game.MaximumEnergyCap - currentAmount;
+		
+		//now that we have the difference, we figure out how long it will take to get that amount.
+		totalTimeToReplenish = difference * (int)game.MinutesPerEnergy;	
+		return totalTimeToReplenish;
+	}
 }
+
+
+
+
 
 public Game FetchGameFromId (int id) {		
 	Game game = Games
@@ -66,6 +81,12 @@ public Game FetchGameFromId (int id) {
 	return game;
 }
 
+private Exception GetInnerException (Exception ex) {
+	while(ex.InnerException != null){
+		ex = ex.InnerException;
+	}
+	return ex;
+}
 
 
 

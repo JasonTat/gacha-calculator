@@ -4,7 +4,7 @@
 
 @inject GameServices _services
 
-<PageTitle>Index</PageTitle>
+<PageTitle>@currentGameName</PageTitle>
 
 
 <div class="banner-name">
@@ -26,9 +26,25 @@
 <input type="number" @bind="currentEnergyAmount"/>
 <button @onclick="() => CalculateTimeToReplenish(currentEnergyAmount)">Calculate</button>
 
+@if(HasError){
+    <p>@errorMessage</p>
+}
+
 <div>
-    <p>@timeSpan.Hours hours and @timeSpan.Minutes minutes to full replenish.</p>
-    <p>@futureTime</p>
+    @if (timeSpan != zeroTimeSpan && futureTime != timeThatItDefaultsToWithoutAValue)
+    {
+        //if equal to full
+        @if (isEnergyFull)
+        {
+            <p>Your energy is full.</p>
+        }
+        //if not equal to full
+        else
+        {
+            <p>@timeSpan.Hours hours and @timeSpan.Minutes minutes to full replenish.</p>
+            <p>@futureTime</p>
+        }
+    }  
 </div>
 
 @code {
@@ -39,15 +55,28 @@
     public List<Game> gameList = new List<Game>();
     public Game currentGame = new();        
     public int currentGameId;
+
+    //we change currentGameName to the currentGame.GameName value
     public string currentGameName = "Gacha Game Energy Calculator";
 
     //user input variables
     int currentEnergyAmount;
+    bool isEnergyFull = false;
 
-    //output variable
+    //output variables
     int minutesToFullReplenish;
     DateTime futureTime;
     TimeSpan timeSpan;
+
+    //these are the values that the system defaults to, will compare output value to this and show return value if it does not equal this.
+    DateTime timeThatItDefaultsToWithoutAValue;
+    TimeSpan zeroTimeSpan;
+
+    public string errorMessage { get; set; }
+    List<string> errorList { get; set; } = new();
+    List<Exception> Errors { get; set; } = new();
+    public bool HasError => !string.IsNullOrWhiteSpace(errorMessage);
+        
     #endregion
 
     protected override void OnInitialized()
@@ -57,24 +86,56 @@
 
     private Game UpdateCurrentGame()
     {
-        return currentGame = _services.FetchGameFromId(currentGameId);
-    }
+        try
+        {
+            currentGame = _services.FetchGameFromId(currentGameId);
 
-    // private TimeSpan CalculateTimeToReplenish(int currentEnergyAmount)
-    // {
-    //     minutesToFullReplenish = _services.GameEnergyCalculator(currentEnergyAmount, currentGame);
-    //     return timeSpan = TimeSpan.FromMinutes(minutesToFullReplenish);
-    // }
+            //update h1 title and pagetitle to current game name based on game selection
+            if (currentGame is not null)
+            {
+                currentGameName = currentGame.GameName;
+                return currentGame;
+            }
+            return null;
+        }
+        catch(Exception ex)
+        {
+            throw new Exception("Unable to get that game. Please try again.");
+        }
+    }
 
     private void CalculateTimeToReplenish(int currentEnergyAmount)
     {
-        minutesToFullReplenish = _services.GameEnergyCalculator(currentEnergyAmount, currentGame);
-        timeSpan = TimeSpan.FromMinutes(minutesToFullReplenish);
-        futureTime = DateTime.Now.Add(timeSpan);
+        try
+        {
+            //reset the error bool so it doesn't show the error msg on a new attempt
+            errorMessage = "";
+
+            if(currentEnergyAmount == currentGame.MaximumEnergyCap)
+            {
+                isEnergyFull = true;
+            }
+            else
+            {
+                isEnergyFull = false;
+                minutesToFullReplenish = _services.GameEnergyCalculator(currentEnergyAmount, currentGame);
+                timeSpan = TimeSpan.FromMinutes(minutesToFullReplenish);
+                futureTime = DateTime.Now.Add(timeSpan);
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = GetInnerException(ex).Message;
+        }
     }
 
-
-
-
+    private Exception GetInnerException(Exception ex)
+    {
+        while (ex.InnerException != null)
+        {
+            ex = ex.InnerException;
+        }
+        return ex;
+    }
 
 }

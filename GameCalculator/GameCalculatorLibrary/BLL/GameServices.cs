@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,10 +35,23 @@ namespace GameCalculatorLibrary.BLL
 
         public int GameEnergyCalculator(int currentAmount, Game game)
         {
-            int totalTimeToReplenish;
-            int difference = (int)game.MaximumEnergyCap - currentAmount;
-            totalTimeToReplenish = difference * (int)game.MinutesPerEnergy;
-            return totalTimeToReplenish;
+
+            if (currentAmount > game.MaximumEnergyCap)
+            {
+                throw new Exception($"Your current amount, {currentAmount}, is greater than the maximum cap ({game.MaximumEnergyCap}) of {game.GameName}");
+            }
+            else
+            {
+                //declare totalTime to replenish resin in minutes
+                int totalTimeToReplenish;
+
+                //figure out how much resin is missing
+                int difference = (int)game.MaximumEnergyCap - currentAmount;
+
+                //now that we have the difference, we figure out how long it will take to get that amount.
+                totalTimeToReplenish = difference * (int)game.MinutesPerEnergy;
+                return totalTimeToReplenish;
+            }
         }
 
         public List<Game> PopulateGameList()
