@@ -1,6 +1,6 @@
 ﻿namespace GameCalculatorLibrary.Entities
 {
-    public class Game
+    public class GameClass
     {
         public int ID { get; set; }
         public string GameName { get; set; }    
