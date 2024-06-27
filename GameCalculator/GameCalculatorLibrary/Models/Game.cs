@@ -8,14 +8,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameCalculatorLibrary.Models
 {
-    [Keyless]
+
     [Table("Game")]
     public partial class Game
     {
+        [Key]
+        [Column("ID")]
+        public int ID { get; set; }
         [StringLength(50)]
         public string GameName { get; set; }
         public int? MinutesPerEnergy { get; set; }
         public int? MaximumEnergyCap { get; set; }
-        public int ID { get; set; }
     }
 }
