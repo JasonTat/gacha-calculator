@@ -1,4 +1,5 @@
 ﻿using GameCalculatorLibrary.Models;
+using GameCalculatorLibrary.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,6 +70,25 @@ namespace GameCalculatorLibrary.BLL
                         .ToList();
             return list;
         }
+
+        #endregion
+
+
+        #region commmand
+
+        public void AddGame(GameClass game)
+        {
+
+            Game gameToAdd = new Game();
+
+            gameToAdd.GameName = game.GameName;
+            gameToAdd.MinutesPerEnergy = game.MinutesPerEnergy;
+            gameToAdd.MaximumEnergyCap = game.MaximumEnergyCap;
+
+            _gameCalculatorContext.Games.Add(gameToAdd);
+            _gameCalculatorContext.SaveChanges();
+        }
+
 
         #endregion
 
