@@ -1,6 +1,8 @@
 ﻿@page "/"
 @using GameCalculatorLibrary.BLL
 @using GameCalculatorLibrary.Models
+@using GameCalculatorLibrary.Entities
+
 
 @inject GameServices _services
 
@@ -47,9 +49,34 @@
     }  
 </div>
 
-@code {
+<div>
+    <h3>test add</h3>
+    <div>
+        <label>game name</label>
+        <input type="text" @bind="@newGameToAdd.GameName"/>
+    </div>
+    <div>
+        <label>minute per energy</label>
+        <input type="number" @bind="@newGameToAdd.MinutesPerEnergy" />
+    </div>
+    <div>
+        <label>max energy</label>
+        <input type="number" @bind="@newGameToAdd.MaximumEnergyCap"/>
+    </div>
 
+    <button @onclick="() => OnClickAddGame(newGameToAdd)">Add Game</button>
+
+    @if (successfullyAdded)
+    {
+        <p>added!</p>
+    }
+
+</div>
+
+
+@code {
     #region variables
+
 
     //starting variables
     public List<Game> gameList = new List<Game>();
@@ -73,10 +100,16 @@
     TimeSpan zeroTimeSpan;
 
     public string errorMessage { get; set; }
-    List<string> errorList { get; set; } = new();
-    List<Exception> Errors { get; set; } = new();
+    List<Exception> errorList = new List<Exception>();
     public bool HasError => !string.IsNullOrWhiteSpace(errorMessage);
-        
+
+    #endregion
+
+    #region admin create variables
+
+    public GameClass newGameToAdd = new GameClass();
+    bool successfullyAdded = false;
+
     #endregion
 
     protected override void OnInitialized()
@@ -128,6 +161,32 @@
             errorMessage = GetInnerException(ex).Message;
         }
     }
+
+    private void OnClickAddGame(GameClass game)
+    {
+        try
+        {
+            _services.AddGame(game);    
+            successfullyAdded = true;
+        }
+        catch (AggregateException ex)
+        {
+            foreach(var error in ex.InnerExceptions)
+            {
+                errorList.Add(error);
+            }
+        }
+        catch(Exception ex)
+        {
+            errorMessage = GetInnerException(ex).Message;
+
+        }
+
+    }
+
+
+
+
 
     private Exception GetInnerException(Exception ex)
     {
