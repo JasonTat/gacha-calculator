@@ -3,53 +3,71 @@
 @using GameCalculatorLibrary.Models
 @using GameCalculatorLibrary.Entities
 
-
 @inject GameServices _services
 
 <PageTitle>@currentGameName</PageTitle>
 
+<div class="">
 
-<div class="banner-name">
-    <h1>@currentGameName</h1>
+    <div class="">
+        <div class="card-title">
+            <h2>@currentGameName</h2>
+        </div>
+    </div>
+
+
+    <div class="">
+
+        <div class="row">
+            <div class="col">
+                <select class="form-select" @bind="currentGameId" @onclick="() => UpdateCurrentGame()">
+                    <option selected value="0">Select a Game...</option>
+                    @foreach (var game in gameList)
+                    {
+                    <option value="@game.ID">@game.GameName</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="row mt-2 g-3">
+            <div class="col">
+                <input type="text" class="form-control" @bind="currentEnergyAmount" placeholder="Current Energy Amount" />
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <button @onclick="() => CalculateTimeToReplenish(currentEnergyAmount)">Calculate</button>
+        </div>
+
+        @if (HasError)
+        {
+            <p>@errorMessage</p>
+        }
+
+        <div>
+            @if (timeSpan != zeroTimeSpan && futureTime != timeThatItDefaultsToWithoutAValue)
+            {
+                //if equal to full
+                @if (isEnergyFull)
+                {
+                    <p>Your energy is full.</p>
+                }
+                //if not equal to full
+                else
+                {
+                    <p>@timeSpan.Hours hours and @timeSpan.Minutes minutes to full replenish.</p>
+                    <p>@futureTime</p>
+                }
+            }
+        </div>
+
+    </div>
+    
 </div>
 
-<div>
-    <select class="select-game-list" @bind="currentGameId" @onclick="() => UpdateCurrentGame()">
-        <option selected value="0">Select a Game...</option>
-        @foreach (var game in gameList)
-        {
-            <option value="@game.ID">@game.GameName</option>
-        }
-    </select>
-</div>
 
-
-<label>Current Energy Amount</label>
-<input type="number" @bind="currentEnergyAmount"/>
-<button @onclick="() => CalculateTimeToReplenish(currentEnergyAmount)">Calculate</button>
-
-@if(HasError){
-    <p>@errorMessage</p>
-}
-
-<div>
-    @if (timeSpan != zeroTimeSpan && futureTime != timeThatItDefaultsToWithoutAValue)
-    {
-        //if equal to full
-        @if (isEnergyFull)
-        {
-            <p>Your energy is full.</p>
-        }
-        //if not equal to full
-        else
-        {
-            <p>@timeSpan.Hours hours and @timeSpan.Minutes minutes to full replenish.</p>
-            <p>@futureTime</p>
-        }
-    }  
-</div>
-
-<div>
+@* <div>
     <h3>test add</h3>
     <div>
         <label>game name</label>
@@ -71,7 +89,7 @@
         <p>added!</p>
     }
 
-</div>
+</div> *@
 
 
 @code {
@@ -87,7 +105,7 @@
     public string currentGameName = "Gacha Game Energy Calculator";
 
     //user input variables
-    int currentEnergyAmount;
+    string currentEnergyAmount;
     bool isEnergyFull = false;
 
     //output variables
@@ -113,7 +131,7 @@
     #endregion
 
     protected override void OnInitialized()
-    {
+    {   
         gameList = _services.PopulateGameList();
     }
 
@@ -137,21 +155,24 @@
         }
     }
 
-    private void CalculateTimeToReplenish(int currentEnergyAmount)
+    private void CalculateTimeToReplenish(string currentEnergyAmount)
     {
         try
         {
             //reset the error bool so it doesn't show the error msg on a new attempt
             errorMessage = "";
 
-            if(currentEnergyAmount == currentGame.MaximumEnergyCap)
+            string currentEnergyToString;
+            int currentEnergyToInt = Int32.Parse(currentEnergyAmount);
+
+            if(currentEnergyToInt == currentGame.MaximumEnergyCap)
             {
                 isEnergyFull = true;
             }
             else
             {
                 isEnergyFull = false;
-                minutesToFullReplenish = _services.GameEnergyCalculator(currentEnergyAmount, currentGame);
+                minutesToFullReplenish = _services.GameEnergyCalculator(currentEnergyToInt, currentGame);
                 timeSpan = TimeSpan.FromMinutes(minutesToFullReplenish);
                 futureTime = DateTime.Now.Add(timeSpan);
             }
@@ -169,7 +190,7 @@
             _services.AddGame(game);    
             successfullyAdded = true;
         }
-        catch (AggregateException ex)
+        catch (AggregateException ex)       
         {
             foreach(var error in ex.InnerExceptions)
             {
@@ -183,11 +204,6 @@
         }
 
     }
-
-
-
-
-
     private Exception GetInnerException(Exception ex)
     {
         while (ex.InnerException != null)
