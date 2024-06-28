@@ -1,12 +1,6 @@
 ﻿body {
-
-
-
-
-
-
-
-
+    /*background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(233,219,219,1) 100%);*/
+    background-color: #ffa8a8;
 }
 
 .home-brand {
@@ -33,3 +27,7 @@
         top: 0.5rem;
     }
 
+.inputplaceholder::placeholder {
+    text-align: center;
+    font-style: italic;
+}
