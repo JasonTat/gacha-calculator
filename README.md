@@ -20,3 +20,5 @@ Jason
 ![image](https://github.com/JasonTat/gacha-calculator/assets/112578835/f83931ca-85f1-47c4-91ef-9d3139855bec)
 
 
+## Mobile Layout
+![image](https://github.com/JasonTat/gacha-calculator/assets/112578835/31f55537-4a61-4321-8bcd-b9d47ea95dd1)
