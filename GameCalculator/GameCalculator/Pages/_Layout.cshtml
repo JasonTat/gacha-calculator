@@ -11,13 +11,11 @@
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/gacha-game.css" rel="stylesheet" />
 
-
     @*<link href="css/site.css" rel="stylesheet" /> *@
-
 
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
-<body>
+<body class="star-rail-background">
     @RenderBody()
 
     <div id="blazor-error-ui">
@@ -32,5 +30,7 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
+    <script src="../wwwroot/js/index.js"></script>
+
 </body>
 </html>

@@ -1,6 +1,23 @@
 ﻿body {
-    /*background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(233,219,219,1) 100%);*/
-    background-color: #ffa8a8;
+    height: 100vh;
+    background: url("../images/wuthering-waves.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.star-rail-background {
+    background: url("../images/wuthering-waves.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.maindiv {
+    border-radius: 16px !important;
+    width: 75%;
+}
+
+.maindiv:hover {
+    transform: scale(1.05);
 }
 
 .home-brand {
