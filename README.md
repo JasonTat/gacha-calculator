@@ -1,12 +1,11 @@
 Hi! This is a full stack personal project that I'm creating in ASP.NET Blazor + MS SQL Server. 
 
+Not really built for monetization or anything like that; I just wanted to build something where I could check how long / when my 'energy' in these games replenish, without having to start each game up.
 
-
-
-Currently, the games I will be supporting are:
+Currently, the games that the app has are:
 - Honkai Star Rail
 - Genshin Impact
-- Arknights
+- Arknights (Okay i need to do a little more for this because there is no "maximum cap" because it goes up each time you level up")
 - Punishing Gray Raven
 - Wuthering Waves
 
